@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import unittest
 from pages.pageindex import *
+from pages.pageitemlist import *
+from pages.pageitem import *
 
 class Items(unittest.TestCase):
     def setUp(self):
@@ -16,12 +18,16 @@ class Items(unittest.TestCase):
 
     def test_view_item_page(self):
         page_index = Page_index(self.driver)
+        page_item_list = Page_item_list(self.driver)
+        page_item = Page_item(self.driver)
         page_index.search_items('dress')
-        self.driver.implicitly_wait(5)
-        self.driver.find_element(By.XPATH, '//*[@id="center_column"]/ul/li[1]/div/div[1]/div/a[1]/img').click()
-        title = self.driver.find_element(By.XPATH, '//h1[@itemprop="name"]').text
+        page_item_list.click_first_item()
+        page_item.verify_text('Printed Summer Dress')
+        #self.driver.implicitly_wait(5)
+        #self.driver.find_element(By.XPATH, '//*[@id="center_column"]/ul/li[1]/div/div[1]/div/a[1]/img').click()
+        #title = self.driver.find_element(By.XPATH, '//h1[@itemprop="name"]').text
         #self.assertEqual(title, 'otra cosa', 'Text should be different')
-        self.assertEqual(title, 'Printed Summer Dress', 'Text should be different')
+        #self.assertEqual(title, 'Printed Summer Dress', 'Text should be different')
 
     def test_search_with_no_items(self):
         page_index = Page_index(self.driver)
